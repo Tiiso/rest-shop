@@ -1,12 +1,17 @@
 const express = require('express');
 const app = express();
-const morgan = require('morgan')
+const morgan = require('morgan');
+//-- deprecated ## built into express
+//const bodyParser = require('body-parser'); 
 
 const productsRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders')
 
 //use morgan for logs before handling requests
 app.use(morgan('dev'));
+//parse URLs and JSON to the body
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded
 
 // Handling requests
 app.use('/products', productsRoutes);
