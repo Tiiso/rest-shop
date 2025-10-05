@@ -13,6 +13,18 @@ app.use(morgan('dev'));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded
 
+//Adding Headers --- CORS errors handling
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Headers', '*');
+    res.header('Access-Control-Allow-Headers', 
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    );
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+        return res.status(200).json({});
+    }
+    next();
+});
 // Handling requests
 app.use('/products', productsRoutes);
 app.use('/orders', orderRoutes)
